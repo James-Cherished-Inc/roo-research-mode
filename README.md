@@ -2,7 +2,7 @@
 
 This repository contains the code for a custom Roo Code mode ("ResearchMode") that integrates Perplexity API for web search and Lynx for page analysis, enabling autonomous research-augmented software engineering within the Roo Code VS Code extension.
 
-@https://x.com/JamesCherished
+-By @https://x.com/JamesCherished
 
 ## Table of Contents
 
@@ -164,6 +164,7 @@ Restart VS Code completely after saving configuration changes.
 # Contributing
 
 This is a FOSS project, made possible by Roo Code. Please feel free to share your work or contribute to this repo!
+
 ---
 
 ## License
