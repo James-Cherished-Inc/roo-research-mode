@@ -31,7 +31,7 @@ Before you begin, ensure you have the following installed and configured:
 
 1.  **Clone the Repository:**
     ```bash
-    git clone https://github.com/James-Cherished/rooresearcher.git # Replace with the actual URL if different
+    git clone https://github.com/James-Cherished/rooresearcher.git # Or your fork's URL
     cd rooresearcher
     ```
 2.  **Install Dependencies:** Run npm to install the required packages (`express`, `axios`, `dotenv`).
@@ -47,23 +47,24 @@ Before you begin, ensure you have the following installed and configured:
         ```
     *   **Security:** The `.gitignore` file prevents your `.env` file (containing the API key) from being accidentally committed to Git.
 
-4.  **Configure Roo Code:** You need to tell Roo Code about this new mode and the MCP server that powers its research capabilities.
+4.  **Configure Roo Code:** You need to tell Roo Code about this new mode and the MCP server that powers its research capabilities. This allows Roo Code to automatically manage the server.
 
-    *   **Add the MCP Server:** Edit your Roo Code MCP settings file (usually located at `~/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json` on Linux). Add the following entry within the `mcpServers` object. **Make sure to replace `/path/to/your/rooresearcher/index.js` with the actual absolute path to the `index.js` file in the cloned repository directory.**
+    *   **Add/Verify the MCP Server Configuration:** Edit your Roo Code MCP settings file (usually located at `~/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json` on Linux). Add or verify the following entry within the `mcpServers` object.
+        *   **CRITICAL:** Replace `/path/to/your/rooresearcher/index.js` with the **actual absolute path** to the `index.js` file in the directory where you cloned this repository. Roo Code needs this exact path to start the server automatically.
         ```json
         {
           "mcpServers": {
             // ... other servers might be here ...
             "perplexity-search": {
               "command": "node",
-              // IMPORTANT: Update this path!
+              // IMPORTANT: Use the correct absolute path to index.js here!
               "args": ["/path/to/your/rooresearcher/index.js"],
               "env": {} // API key is handled by .env in the server directory
             }
           }
         }
         ```
-    *   **Add the Custom Mode:** Edit your Roo Code custom modes file (usually `~/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/custom_modes.json` on Linux). Add the following mode definition to the `customModes` array:
+    *   **Add/Verify the Custom Mode:** Edit your Roo Code custom modes file (usually `~/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/custom_modes.json` on Linux). Add or verify the following mode definition within the `customModes` array:
         ```json
         {
           "slug": "research-mode",
@@ -80,28 +81,20 @@ Before you begin, ensure you have the following installed and configured:
           "source": "global" // Or set to "workspace" if preferred
         }
         ```
-    *   **Restart VS Code:** After editing the configuration files, restart VS Code for the changes to take effect.
+    *   **Restart VS Code:** After editing the configuration files, **restart VS Code completely** for the changes to take effect and for Roo Code to attempt starting the MCP server.
 
-## Running the MCP Server
+## Running the MCP Server (Automatic & Manual)
 
-The local Perplexity MCP server needs to be running in the background for ResearchMode to function.
-
-1.  **Navigate to the directory:**
-    ```bash
-    cd /path/to/your/rooresearcher
-    ```
-2.  **Start the server:**
-    ```bash
-    node index.js
-    ```
-
-The terminal will show `MCP server on port 3000`. Keep this terminal running while you use ResearchMode in Roo Code.
-
-*(Automation Idea: For easier use, you could configure this server to run automatically on system startup using tools like `systemd` on Linux or `pm2`.)*
+*   **Automatic Startup (Recommended):** If you configured `cline_mcp_settings.json` correctly with the absolute path to `index.js`, Roo Code should automatically start the Perplexity MCP server when VS Code starts or when the configuration is loaded. You typically don't need to start it manually.
+*   **Manual Startup (Testing/Fallback):** If automatic startup fails or for testing purposes, you can run the server manually from your terminal:
+    1.  Navigate to the repository directory: `cd /path/to/your/rooresearcher`
+    2.  Start the server: `node index.js`
+    The terminal will show `MCP server on port 3000`. You would need to keep this terminal running.
+*   **Persistent Background Execution (Advanced):** For a more robust setup where the server runs constantly in the background, consider using process managers like `pm2` (`npm install pm2 -g`, then `pm2 start index.js --name perplexity-mcp`) or configuring it as a `systemd` service on Linux.
 
 ## Usage
 
-Once set up and the MCP server is running, activate "ResearchMode" in Roo Code (it should appear in the mode selection dropdown). You can now perform tasks like:
+Once set up and the MCP server is running (ideally automatically managed by Roo Code), activate "ResearchMode" in Roo Code. You can now perform tasks like:
 
 *   **Code with Research:** "Refactor this Python function to use async/await. Search for best practices first."
 *   **Targeted Research:** "Find examples of Rust's `Result` type used with file I/O."
