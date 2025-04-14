@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Cache file
+cache.json
+
+# OS generated files
+.DS_Store
+Thumbs.db
