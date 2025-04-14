@@ -1,6 +1,8 @@
-# Roo Code ResearchMode with Perplexity & Lynx
+# Roo Code Research Mode with Perplexity & Lynx
 
 This repository contains the code for a custom Roo Code mode ("ResearchMode") that integrates Perplexity API for web search and Lynx for page analysis, enabling autonomous research-augmented software engineering within the Roo Code VS Code extension.
+
+@https://x.com/JamesCherished
 
 ## Table of Contents
 
@@ -13,14 +15,16 @@ This repository contains the code for a custom Roo Code mode ("ResearchMode") th
   - [4. Configure Roo Code Manually](#4-configure-roo-code-manually)
   - [5. Restart VS Code](#5-restart-vs-code)
   - [6. Manual Server Start (If Automatic Fails)](#6-manual-server-start-if-automatic-fails)
+        - [Full `custom_modes.json` Snippet (for Manual Setup)](#full-custom_modesjson-snippet-for-manual-setup)
 - [Usage](#usage)
-- [Cost Estimation](#cost-estimation)
-- [License](#license)
-- [Full `custom_modes.json` Snippet (for Manual Setup)](#full-custom_modesjson-snippet-for-manual-setup)
+- [Contributing](#contributing)
+- [License (MPL 2.0)](#license)
+
 
 ## Features
 
 *   **Perplexity Integration:** Uses the Perplexity API (via a local MCP server) for high-quality, up-to-date web search results using the `sonar` model.
+	* About $0.01 per search. You get $5 of monthly free credits with Perplexity Pro, which is enough for intensive use. You can monitor and set limits at https://www.perplexity.ai/account/api
 *   **Lynx Integration:** Leverages the Lynx text-based browser for deep page analysis, code extraction, and documentation summarization directly within Roo Code.
 *   **Research-Augmented Coding:** Designed for software engineers to seamlessly blend coding tasks with research, using findings to inform code generation, refactoring, and technical decisions.
 *   **Caching:** Includes simple file-based caching (`cache.json`) for Perplexity results to conserve API credits and improve response times.
@@ -37,6 +41,9 @@ The easiest way to set up ResearchMode is to let Roo configure it for you.
     cd rooresearcher
     npm install
     ```
+
+Replace URL with https://github.com/James-Cherished/rooresearcher.git for experimental releases, or with your fork's URL
+
 2.  **Start Roo Code & Provide Setup Task:**
     *   Open the `rooresearcher` folder in VS Code.
     *   Ensure the Roo Code extension is enabled.
@@ -60,6 +67,18 @@ The easiest way to set up ResearchMode is to let Roo configure it for you.
 3.  **Follow Roo's Instructions:** Roo will guide you through the process, potentially asking for your API key and confirmation to edit global configuration files.
 4.  **Restart VS Code:** Once Roo confirms the setup is complete, restart VS Code. ResearchMode should now be available, and the MCP server should start automatically.
 
+---
+## Usage
+
+Once set up and the MCP server is running (ideally automatically), activate "ResearchMode" in Roo Code. You can now perform tasks like:
+
+*   **Code with Research:** "Refactor this Python function to use async/await. Search for best practices first."
+*   **Targeted Research:** "Find examples of Rust's `Result` type used with file I/O."
+*   **Documentation Analysis:** "Summarize the main points of the Lynx man page using `lynx -dump 'man:lynx'`."
+*   **Code Extraction:** "Search for a JavaScript debounce function example and extract the code from the top result."
+*   **Iterative Development:** Roo will use research findings to suggest code, which you can then refine together. Roo is also instructed to document the influence of research in comments or docs.
+
+---
 ## Manual Installation / Troubleshooting
 
 If you prefer to configure manually or encounter issues with the automated setup:
@@ -122,27 +141,8 @@ Restart VS Code completely after saving configuration changes.
     *   Keep the terminal running. If this works, the issue is likely the absolute path configured in `mcp_settings.json`.
     *   Consider using `pm2` or `systemd` for persistent background execution if desired.
 
-## Usage
 
-Once set up and the MCP server is running (ideally automatically), activate "ResearchMode" in Roo Code. You can now perform tasks like:
-
-*   **Code with Research:** "Refactor this Python function to use async/await. Search for best practices first."
-*   **Targeted Research:** "Find examples of Rust's `Result` type used with file I/O."
-*   **Documentation Analysis:** "Summarize the main points of the Lynx man page using `lynx -dump 'man:lynx'`."
-*   **Code Extraction:** "Search for a JavaScript debounce function example and extract the code from the top result."
-*   **Iterative Development:** Roo will use research findings to suggest code, which you can then refine together. Roo is also instructed to document the influence of research in comments or docs.
-
-## Cost Estimation
-
-Perplexity API usage incurs costs based on tokens processed. During the development and testing for *this specific setup task* (involving approx. **7 API calls**), the estimated cost was **$0.05**. Your actual costs will vary based on usage frequency and query complexity. Caching helps reduce costs for repeated searches. Monitor your usage via the Perplexity dashboard.
-
-## License
-
-This project is licensed under the **Mozilla Public License 2.0 (MPL 2.0)**. See the `LICENSE` file for details.
-
----
-
-### Full `custom_modes.json` Snippet (for Manual Setup)
+#### Full `custom_modes.json` Snippet (for Manual Setup)
 
 ```json
 {
@@ -159,3 +159,15 @@ This project is licensed under the **Mozilla Public License 2.0 (MPL 2.0)**. See
   ],
   "source": "global" // Or set to "workspace" if preferred
 }
+
+```
+# Contributing
+
+This is a FOSS project, made possible by Roo Code. Please feel free to share your work or contribute to this repo!
+---
+
+## License
+
+This project is licensed under the **Mozilla Public License 2.0 (MPL 2.0)**. See the `LICENSE` file for details.
+
+---
