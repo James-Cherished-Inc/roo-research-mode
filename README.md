@@ -2,6 +2,22 @@
 
 This repository contains the code for a custom Roo Code mode ("ResearchMode") that integrates Perplexity API for web search and Lynx for page analysis, enabling autonomous research-augmented software engineering within the Roo Code VS Code extension.
 
+## Table of Contents
+
+- [Features](#features)
+- [Quick Start: Automated Setup with Roo](#quick-start-automated-setup-with-roo)
+- [Manual Installation / Troubleshooting](#manual-installation--troubleshooting)
+  - [1. Prerequisites](#1-prerequisites)
+  - [2. Clone & Install](#2-clone--install)
+  - [3. Configure API Key](#3-configure-api-key)
+  - [4. Configure Roo Code Manually](#4-configure-roo-code-manually)
+  - [5. Restart VS Code](#5-restart-vs-code)
+  - [6. Manual Server Start (If Automatic Fails)](#6-manual-server-start-if-automatic-fails)
+- [Usage](#usage)
+- [Cost Estimation](#cost-estimation)
+- [License](#license)
+- [Full `custom_modes.json` Snippet (for Manual Setup)](#full-custom_modesjson-snippet-for-manual-setup)
+
 ## Features
 
 *   **Perplexity Integration:** Uses the Perplexity API (via a local MCP server) for high-quality, up-to-date web search results using the `sonar` model.
@@ -48,25 +64,29 @@ The easiest way to set up ResearchMode is to let Roo configure it for you.
 
 If you prefer to configure manually or encounter issues with the automated setup:
 
-**1. Prerequisites:** Ensure the following are installed:
+### 1. Prerequisites
+Ensure the following are installed:
     *   [Roo Code VS Code extension](https://marketplace.visualstudio.com/items?itemName=rooveterinaryinc.roo-cline).
     *   [Node.js](https://nodejs.org/) (v14+) & npm (`node -v`, `npm -v`). Install if needed (e.g., `sudo apt update && sudo apt install nodejs npm -y` on Debian/Ubuntu).
     *   [Lynx](https://lynx.invisible-island.net/) text browser (`lynx --version`). Install if needed (e.g., `sudo apt update && sudo apt install lynx -y` on Debian/Ubuntu).
     *   A [Perplexity API key](https://www.perplexity.ai/settings/api).
 
-**2. Clone & Install:**
+### 2. Clone & Install
     ```bash
     git clone https://github.com/James-Cherished/rooresearcher.git # Or your fork's URL
     cd rooresearcher
     npm install
     ```
 
-**3. Configure API Key:**
+### 3. Configure API Key
     *   `cp .env.example .env`
     *   Edit `.env` and add your Perplexity API key.
 
-**4. Configure Roo Code Manually:**
-    *   **Find Config Files:** Locate Roo Code's settings directory (see paths in the automated setup prompt above).
+### 4. Configure Roo Code Manually
+    *   **Find Config Files:** Locate Roo Code's settings directory:
+        *   Linux: `~/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/`
+        *   macOS: `~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/`
+        *   Windows: `%APPDATA%\Code\User\globalStorage\rooveterinaryinc.roo-cline\settings\`
     *   **Edit `mcp_settings.json`:** Add the `perplexity-search` server entry, ensuring you use the **correct absolute path** to `index.js`.
         ```json
         // Inside mcp_settings.json -> mcpServers object
@@ -76,6 +96,7 @@ If you prefer to configure manually or encounter issues with the automated setup
           "env": {}
         }
         ```
+        *(If the file or `mcpServers` object doesn't exist, create them)*
     *   **Edit `custom_modes.json`:** Add the `research-mode` definition to the `customModes` array.
         ```json
         // Inside custom_modes.json -> customModes array
@@ -90,9 +111,10 @@ If you prefer to configure manually or encounter issues with the automated setup
         ```
         *(See full JSON snippets below if needed)*
 
-**5. Restart VS Code:** Restart VS Code completely after saving configuration changes.
+### 5. Restart VS Code
+Restart VS Code completely after saving configuration changes.
 
-**6. Manual Server Start (If Automatic Fails):**
+### 6. Manual Server Start (If Automatic Fails)
     *   If Roo Code doesn't start the server automatically (check Roo Code logs or try using the mode), you can run it manually from the `rooresearcher` directory:
         ```bash
         node index.js
